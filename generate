@@ -1,0 +1,78 @@
+import pandas as pd
+import random
+
+df = pd.DataFrame(columns=['Gender','Age Group','Pregnant','Calcium [mg]','Protein [g]','Carbohydrate [g]','Fiber [g]','Cholesterol [mg]','MaxTotal Fat [g]','Water Intake','Target'])
+for iter in range(90000):
+	temp = random.randint(0,1)
+	if temp == 0:
+		Gender = 'M'
+	else:
+		Gender = 'F'
+
+	Age = random.randint(1,75)
+
+	temp = random.randint(0,1)
+	if Age <= 15:
+		Pregnant = 'N'
+	elif Gender == 'F' and (15<Age<45)  and temp == 1:
+		Pregnant = 'Y'
+	else:
+		Pregnant = 'N'	
+
+	if Age>0 and Age <=15 and Pregnant == 'N' and Gender == 'M':
+		EnergyMax = 3000
+	elif Age>15 and Age <=30 and Pregnant == 'N' and Gender == 'M':
+		EnergyMax = 3200
+	elif Age>30 and Age <=45 and Pregnant == 'N' and Gender == 'M':
+		EnergyMax = 2800
+	elif Age>45 and Age <=60 and Pregnant == 'N' and Gender == 'M':
+		EnergyMax = 2800
+	elif Age>60 and Age <=100 and Pregnant == 'N' and Gender == 'M':
+		EnergyMax = 2200
+
+	elif Age>0 and Age <=15 and Pregnant == 'N' and Gender == 'F':
+		EnergyMax = 2600
+	elif Age>15 and Age <=30 and Pregnant == 'N' and Gender == 'F':
+		EnergyMax = 2400
+	elif Age>30 and Age <=45 and Pregnant == 'N' and Gender == 'F':
+		EnergyMax = 2200
+	elif Age>45 and Age <=60 and Pregnant == 'N' and Gender == 'F':
+		EnergyMax = 2200
+	elif Age>60 and Age <=100 and Pregnant == 'N' and Gender == 'F':
+		EnergyMax = 2000
+
+	elif Age>15 and Age <=30 and Pregnant == 'Y' and Gender == 'F':
+		EnergyMax = 2400
+	elif Age>30 and Age <=45 and Pregnant == 'Y' and Gender == 'F':
+		EnergyMax = 2400
+
+	Calcium = random.randint(800,1500)
+
+	Protein = random.randint(35,75)
+
+	Carbohydrate = random.randint(180,320)
+
+	Fiber = random.randint(17,42)
+
+	Cholesterol = random.randint(10,230)
+
+	MinTotalFat = random.randint(15,22)
+
+	MaxTotalFat = random.randint(22,34)
+
+	Water = random.randint(0,5)
+
+	temp = Protein*4 + Carbohydrate*4 + Fiber*4 + Cholesterol*9 + MaxTotalFat*9 - EnergyMax
+
+	if temp < 0:
+		Target = 0
+	if temp >= 0 and temp<=200:
+		Target = 1
+	if temp>200  and temp <=400:
+		Target = 2
+	if temp>400:
+		Target = 3
+
+	df.loc[iter] = [Gender,Age,Pregnant,Calcium,Protein,Carbohydrate,Fiber,Cholesterol,MaxTotalFat,Water,Target]
+
+df.to_csv('/home/mlh-admin/Desktop/input2.csv', sep=',')
